@@ -1,2 +1,2 @@
 # taxi-nua
-Uber style taxi app using Django Channels
+Uber (Nua) taxi app using Django Channels
