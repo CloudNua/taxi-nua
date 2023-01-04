@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.db.models import Q
 from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions, viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -24,5 +24,14 @@ class TripView(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'id'
     lookup_url_kwarg = 'trip_id'
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = Trip.objects.all()
     serializer_class = TripSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.group == 'driver':
+            return Trip.objects.filter(
+                Q(status=Trip.REQUESTED) | Q(driver=user)
+            )
+        if user.group == 'rider':
+            return Trip.objects.filter(rider=user)
+        return Trip.objects.none()
