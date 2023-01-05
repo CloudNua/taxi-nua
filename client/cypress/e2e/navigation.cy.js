@@ -18,4 +18,18 @@ describe('Navigation', function () {
     cy.get('a').contains('Home').click();
     cy.hash().should('eq', '#/');
   });
+
+  // new
+  it('Can navigate to log in from sign up', function () {
+    cy.visit('/#/sign-up');
+    cy.get('a').contains('Log in').click();
+    cy.hash().should('eq', '#/log-in');
+  });
+
+  // new
+  it('Can navigate to home from log in', function () {
+    cy.visit('/#/log-in');
+    cy.get('a').contains('Home').click();
+    cy.hash().should('eq', '#/');
+  });
 });
