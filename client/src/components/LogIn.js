@@ -15,17 +15,35 @@ function LogIn (props) {
       <Card>
         <Card.Header>Log in</Card.Header>
         <Card.Body>
-          {/* new begin */}
-          <Formik>
-            {() => (
-              <Form noValidate>
+          <Formik
+            initialValues={{
+              username: '',
+              password: ''
+            }}
+            onSubmit={(values, actions) => console.log(values)}
+          >
+            {({
+              handleChange,
+              handleSubmit,
+              values
+            }) => (
+              <Form noValidate onSubmit={handleSubmit}>
                 <Form.Group className='mb-3' controlId='username'>
                   <Form.Label>Username:</Form.Label>
-                  <Form.Control name='username' />
+                  <Form.Control
+                    name='username'
+                    onChange={handleChange}
+                    value={values.username}
+                  />
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='password'>
                   <Form.Label>Password:</Form.Label>
-                  <Form.Control name='password' type='password' />
+                  <Form.Control
+                    name='password'
+                    onChange={handleChange}
+                    type='password'
+                    value={values.password}
+                  />
                 </Form.Group>
                 <div className='d-grid mb-3'>
                   <Button type='submit' variant='primary'>Log in</Button>
@@ -33,7 +51,6 @@ function LogIn (props) {
               </Form>
             )}
           </Formik>
-          {/* new end */}
           <Card.Text className='text-center'>
             Don't have an account? <Link to='/sign-up'>Sign up!</Link>
           </Card.Text>
