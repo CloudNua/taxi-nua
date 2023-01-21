@@ -1,22 +1,20 @@
-import React, { useState } from 'react'; // changed
+import React, { useState } from 'react';
+import axios from 'axios';
 import {
   Button, Container, Form, Navbar
-} from 'react-bootstrap'; // changed
+} from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
 import Landing from './components/Landing';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
-import axios from 'axios'; // new
-
 
 import './App.css';
 
 function App () {
-  // new begin
   const [isLoggedIn, setLoggedIn] = useState(() => {
-    return window.localStorage.getItem('taxi.auth') != null;
+    return window.localStorage.getItem('taxi.auth') !== null;
   });
 
   const logIn = async (username, password) => {
@@ -27,27 +25,32 @@ function App () {
         'taxi.auth', JSON.stringify(response.data)
       );
       setLoggedIn(true);
-    }
-    catch (error) {
+      return { response, isError: false };
+    } catch (error) {
       console.error(error);
+      return { response: error, isError: true };
     }
   };
 
-  const onSubmit = async (values, actions) => {
-    try {
-      await props.logIn(values.username, values.password);
-      setSubmitted(true);
-    }
-    catch (error) {
-      console.error(error);
-    }
+  // new
+  const logOut = () => {
+    window.localStorage.removeItem('taxi.auth');
+    setLoggedIn(false);
   };
-  
 
   return (
     <Routes>
-      <Route path='/' element={<Layout isLoggedIn={isLoggedIn} />}>
-      <Route index element={<Landing isLoggedIn={isLoggedIn} />} />
+      {/* changed */}
+      <Route
+        path='/'
+        element={
+          <Layout
+            isLoggedIn={isLoggedIn}
+            logOut={logOut}
+          />
+        }
+      >
+        <Route index element={<Landing isLoggedIn={isLoggedIn} />} />
         <Route
           path='sign-up'
           element={
@@ -68,7 +71,7 @@ function App () {
   );
 }
 
-function Layout ({ isLoggedIn }) { // changed
+function Layout ({ isLoggedIn, logOut }) { // changed
   return (
     <>
       <Navbar bg='light' expand='lg' variant='light'>
@@ -81,7 +84,12 @@ function Layout ({ isLoggedIn }) { // changed
             {
               isLoggedIn && (
                 <Form>
-                  <Button type='button'>Log out</Button>
+                  {/* changed */}
+                  <Button
+                    data-cy='logOut'
+                    type='button'
+                    onClick={() => logOut()}
+                  >Log out</Button>
                 </Form>
               )
             }
