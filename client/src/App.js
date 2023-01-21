@@ -8,16 +8,32 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 import Landing from './components/Landing';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
+import axios from 'axios'; // new
+
 
 import './App.css';
 
 function App () {
   // new begin
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const logIn = (username, password) => setLoggedIn(true);
-  // new end
+  const [isLoggedIn, setLoggedIn] = useState(() => {
+    return window.localStorage.getItem('taxi.auth') != null;
+  });
 
-  // changed
+  const logIn = async (username, password) => {
+    const url = '/api/log_in/';
+    try {
+      const response = await axios.post(url, { username, password });
+      window.localStorage.setItem(
+        'taxi.auth', JSON.stringify(response.data)
+      );
+      setLoggedIn(true);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  };
+  
+
   return (
     <Routes>
       <Route path='/' element={<Layout isLoggedIn={isLoggedIn} />}>
