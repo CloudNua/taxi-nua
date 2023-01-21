@@ -1,23 +1,35 @@
-import React from 'react';
-import { Container, Navbar } from 'react-bootstrap';
+import React, { useState } from 'react'; // changed
+import {
+  Button, Container, Form, Navbar
+} from 'react-bootstrap'; // changed
 import { LinkContainer } from 'react-router-bootstrap';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
+
+import Landing from './components/Landing';
+import LogIn from './components/LogIn';
+import SignUp from './components/SignUp';
 
 import './App.css';
 
 function App () {
+  // new begin
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const logIn = (username, password) => setLoggedIn(true);
+  // new end
+
+  // changed
   return (
     <Routes>
-      <Route path='/' element={<Layout />}> {/* changed */}
+      <Route path='/' element={<Layout isLoggedIn={isLoggedIn} />}>
         <Route index element={<Landing />} />
         <Route path='sign-up' element={<SignUp />} />
-        <Route path='log-in' element={<LogIn />} />
+        <Route path='log-in' element={<LogIn logIn={logIn} />} />
       </Route>
     </Routes>
   );
 }
 
-function Layout () {
+function Layout ({ isLoggedIn }) { // changed
   return (
     <>
       <Navbar bg='light' expand='lg' variant='light'>
@@ -26,7 +38,15 @@ function Layout () {
             <Navbar.Brand className='logo'>Taxi</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle />
-          <Navbar.Collapse />
+          <Navbar.Collapse className='justify-content-end'>
+            {
+              isLoggedIn && (
+                <Form>
+                  <Button type='button'>Log out</Button>
+                </Form>
+              )
+            }
+          </Navbar.Collapse>
         </Container>
       </Navbar>
       <Container className='pt-3'>
