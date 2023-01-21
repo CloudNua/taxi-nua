@@ -6,7 +6,15 @@ import { Outlet } from 'react-router-dom';
 import './App.css';
 
 function App () {
-  return;
+  return (
+    <Routes>
+      <Route path='/' element={<Layout />}> {/* changed */}
+        <Route index element={<Landing />} />
+        <Route path='sign-up' element={<SignUp />} />
+        <Route path='log-in' element={<LogIn />} />
+      </Route>
+    </Routes>
+  );
 }
 
 function Layout () {
