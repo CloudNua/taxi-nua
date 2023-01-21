@@ -17,6 +17,11 @@ function LogIn (props) {
     return <Navigate to='/' />;
   }
 
+  if (props.isLoggedIn || isSubmitted) {
+    return <Navigate to='/' />;
+  }
+  
+
 
   return (
     <>

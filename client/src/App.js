@@ -32,14 +32,37 @@ function App () {
       console.error(error);
     }
   };
+
+  const onSubmit = async (values, actions) => {
+    try {
+      await props.logIn(values.username, values.password);
+      setSubmitted(true);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  };
   
 
   return (
     <Routes>
       <Route path='/' element={<Layout isLoggedIn={isLoggedIn} />}>
-        <Route index element={<Landing />} />
-        <Route path='sign-up' element={<SignUp />} />
-        <Route path='log-in' element={<LogIn logIn={logIn} />} />
+      <Route index element={<Landing isLoggedIn={isLoggedIn} />} />
+        <Route
+          path='sign-up'
+          element={
+            <SignUp isLoggedIn={isLoggedIn} />
+          }
+        />
+        <Route
+          path='log-in'
+          element={
+            <LogIn
+              isLoggedIn={isLoggedIn}
+              logIn={logIn}
+            />
+          }
+        />
       </Route>
     </Routes>
   );

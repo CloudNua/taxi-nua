@@ -13,7 +13,10 @@ function SignUp (props) {
   if (isSubmitted) {
     return <Navigate to='/log-in' />;
   }
-  // new end
+  
+  if (props.isLoggedIn) {
+    return <Navigate to='/' />;
+  }
 
   return (
     <>
