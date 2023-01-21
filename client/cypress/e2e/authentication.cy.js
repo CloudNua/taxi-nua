@@ -8,7 +8,6 @@ describe('Authentication', function () {
       cy.hash().should('eq', '#/');
     });
   
-    // new
     it('Can sign up.', function () {
       cy.visit('/#/sign-up');
       cy.get('input#username').type('gary.cole@example.com');

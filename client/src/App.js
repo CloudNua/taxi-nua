@@ -1,12 +1,15 @@
 import React from 'react';
-import { Container, Navbar } from 'react-bootstrap'; // new
-import { LinkContainer } from 'react-router-bootstrap'; // new
+import { Container, Navbar } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Outlet } from 'react-router-dom';
 
 import './App.css';
 
-// changed
 function App () {
+  return;
+}
+
+function Layout () {
   return (
     <>
       <Navbar bg='light' expand='lg' variant='light'>
