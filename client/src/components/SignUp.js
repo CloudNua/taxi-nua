@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import {
-  Breadcrumb, Button, Card, Form
+  Breadcrumb, Button, Card, Form, Alert
 } from 'react-bootstrap';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
@@ -60,11 +60,11 @@ function SignUp (props) {
             onSubmit={onSubmit}
           >
             {({
-              errors, // new
+              errors,
               handleChange,
               handleSubmit,
-              isSubmitting, // new
-              setFieldValue, // new
+              isSubmitting,
+              setFieldValue,
               values
             }) => (
               <>
